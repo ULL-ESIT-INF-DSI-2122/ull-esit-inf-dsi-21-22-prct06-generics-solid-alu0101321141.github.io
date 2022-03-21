@@ -84,13 +84,4 @@ export abstract class Fighter {
       this.defense = 0;
     }
   }
-
-  /**
-   * Método abstracto daño que realiza el personaje
-   */
-  abstract dmgFight():number;
-  /**
-   * Método abstracto daño que recibe el personaje.
-   */
-  abstract HPFight():number;
 }
