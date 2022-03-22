@@ -75,7 +75,7 @@ describe("Pruebas del juego de peleas.", () => {
     const akainu = new OnePiece("OnePiece", "Akainu", "¡¡El «mal» que representan los piratas debe ser erradicado!!",
         650, 1000, 300, "Logia", "", [55, "North Blue", "Almirante de flota"]);
     const Queen = new OnePiece("OnePiece", "Queen la Plaga", "¡Gracias por esperar! ¡Pedazos de basura!",
-        400, 500, 250, "Zoan", "", [56, "Grand Line", "1.320.000.000 Belly"]); 
+        400, 500, 250, "Zoan", "", [56, "Grand Line", "1.320.000.000 Belly"]);
 
     it("Pruebas de la definición de la clase OnePiece", () => {
       expect(luffy).not.to.be.null;

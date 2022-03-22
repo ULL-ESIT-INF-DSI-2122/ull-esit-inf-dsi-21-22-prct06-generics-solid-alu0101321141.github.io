@@ -6,7 +6,7 @@ import {Fighter} from "../ejercicio1/fighter";
  */
 export class Pokemon extends Fighter {
   /**
-   * 
+   * Constructor de la clase
    * @param nameUniverse Nombre del universo Pokemon
    * @param nameCharacter Nombre del Personaje
    * @param catchingPhrase Fase mítica del personaje
