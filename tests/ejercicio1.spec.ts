@@ -2,6 +2,7 @@ import "mocha";
 import {expect} from 'chai';
 import {Pokemon} from '../src/ejercicio1/Pokemon';
 import {Avatar} from '../src/ejercicio1/Avatar';
+import {OnePiece} from '../src/ejercicio1/OnePiece';
 
 describe("Pruebas del juego de peleas.", () => {
   describe("Pruebas de la clase Pokemon", () => {
@@ -38,9 +39,9 @@ describe("Pruebas del juego de peleas.", () => {
       "del príncipe desterrado, condenado a perseguir al Avatar para siempre.", 150, 100, 80, "Fire", "Espadas duales Dao", [18,
       "Nación del fuego"]);
     const katara = new Avatar("Avatar", "Katara", "No! Yo nunca ¡Jamás! le daré la espalda a alguien que me necesite.",
-        100, 80, 40, "water", "hielo", [14, "Tibu Agua del norte"]);
+        100, 80, 40, "Water", "hielo", [14, "Tibu Agua del norte"]);
     const Toph = new Avatar("Avatar", "Toph Beifong", "No me importa cómo me veo. No busco la aprobación de nadie." +
-      " Sé muy bien quien soy.", 150, 95, 100, "land", "Cables Metal", [12, "Reino Tierra"]);
+      " Sé muy bien quien soy.", 150, 95, 100, "Land", "Cables Metal", [12, "Reino Tierra"]);
 
 
     it("Pruebas de la definición de la clase Avatar", () => {
@@ -54,16 +55,48 @@ describe("Pruebas del juego de peleas.", () => {
       expect(Toph.getHP()).to.eq(150);
       expect(Toph.getDM()).to.eq(95);
       expect(Toph.getDefense()).to.eq(100);
+      expect(Toph.getElement()).to.eq("Land");
       expect(Toph.getWeapon()).to.eq("Cables Metal");
       expect(Toph.getInfo()).to.eql([12, "Reino Tierra"]);
     });
     it("Setter del universo Avatar ", () => {
       Toph.setHP(10);
       expect(Toph.getHP()).to.eq(10);
-      Toph.setHP(75);
+      Toph.setHP(150);
       Toph.setDefense(10);
       expect(Toph.getDefense()).to.eq(10);
-      Toph.setDefense(80);
+      Toph.setDefense(100);
+    });
+  });
+  describe("Pruebas de la clase One Piece", () => {
+    const luffy = new OnePiece("OnePiece", "Luffy", "En un duelo entre piratas… No existe tal cosa de jugar sucio",
+        350, 400, 150, "Paramecia", "Gear 2", [19, "East Blue", "1.500.000.000 Belly"]);
+    const akainu = new OnePiece("OnePiece", "Akainu", "¡¡El «mal» que representan los piratas debe ser erradicado!!",
+        650, 1000, 300, "Logia", "", [55, "North Blue", "Almirante de flota"]);
+    const Queen = new OnePiece("OnePiece", "Queen la Plaga", "¡Gracias por esperar! ¡Pedazos de basura!",
+        400, 500, 250, "Zoan", "", [56, "Grand Line", "1.320.000.000 Belly"]); 
+
+    it("Pruebas de la definición de la clase OnePiece", () => {
+      expect(luffy).not.to.be.null;
+    });
+    it("Getters del universo One Piece ", () => {
+      expect(akainu.getNameUniverse()).to.eq("OnePiece");
+      expect(Queen.getNameCharacter()).to.eq("Queen la Plaga");
+      expect(Queen.getCatchingPhrase()).to.eq("¡Gracias por esperar! ¡Pedazos de basura!");
+      expect(akainu.getHP()).to.eq(650);
+      expect(akainu.getDM()).to.eq(1000);
+      expect(akainu.getDefense()).to.eq(300);
+      expect(akainu.getTypeDevilFruit()).to.eq("Logia");
+      expect(akainu.getWeapon()).to.eq("");
+      expect(luffy.getInfo()).to.eql([19, "East Blue", "1.500.000.000 Belly"]);
+    });
+    it("Setter del universo One Piece ", () => {
+      luffy.setHP(10);
+      expect(luffy.getHP()).to.eq(10);
+      luffy.setHP(350);
+      luffy.setDefense(10);
+      expect(luffy.getDefense()).to.eq(10);
+      luffy.setDefense(150);
     });
   });
 });
