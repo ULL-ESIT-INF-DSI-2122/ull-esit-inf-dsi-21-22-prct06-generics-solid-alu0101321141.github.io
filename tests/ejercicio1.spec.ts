@@ -3,6 +3,7 @@ import {expect} from 'chai';
 import {Pokemon} from '../src/ejercicio1/Pokemon';
 import {Avatar} from '../src/ejercicio1/Avatar';
 import {OnePiece} from '../src/ejercicio1/OnePiece';
+import {Combat} from '../src/ejercicio1/Combat';
 
 describe("Pruebas del juego de peleas.", () => {
   describe("Pruebas de la clase Pokemon", () => {
@@ -97,6 +98,33 @@ describe("Pruebas del juego de peleas.", () => {
       luffy.setDefense(10);
       expect(luffy.getDefense()).to.eq(10);
       luffy.setDefense(150);
+    });
+  });
+  describe("Pruebas de la clase Combate", () => {
+    const aang = new Avatar("Avatar", "Aang", "La venganza es como un arma de doble filo: mientras " +
+        " ves caer a tu enemigo, te envenenas por dentro", 250, 150, 100, "Avatar", "Planeador", [12, "Nomadas del aire"]);
+    const luffy = new OnePiece("OnePiece", "Luffy", "En un duelo entre piratas… No existe tal cosa de jugar sucio",
+        350, 400, 150, "Paramecia", "Gear 2", [19, "East Blue", "1.500.000.000 Belly"]);
+    const akainu = new OnePiece("OnePiece", "Akainu", "¡¡El «mal» que representan los piratas debe ser erradicado!!",
+        650, 1000, 300, "Logia", "", [55, "North Blue", "Almirante de flota"]);
+    const pikachu = new Pokemon("Pokemon", "Pikachu", "Pika Pika CHUU", 45, 80, 50, "Electric", [430, 75, 60, 120]);
+
+    const combat1 = new Combat(aang, luffy);
+
+    it("Pruebas de la definición de la clase Combate", () => {
+      expect(combat1).not.to.be.null;
+    });
+    it("Getters del Combate ", () => {
+      expect(combat1.getFighter1()).to.eql(aang);
+      expect(combat1.getFighter2()).to.eql(luffy);
+    });
+    it("Setter del universo One Piece ", () => {
+      combat1.setFighter1(akainu);
+      expect(combat1.getFighter1()).to.eql(akainu);
+      combat1.setFighter1(aang);
+      combat1.setFighter2(pikachu);
+      expect(combat1.getFighter2()).to.eql(pikachu);
+      combat1.setFighter2(luffy);
     });
   });
 });
