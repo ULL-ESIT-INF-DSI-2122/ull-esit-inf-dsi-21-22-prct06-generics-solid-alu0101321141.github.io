@@ -28,8 +28,14 @@ describe("Pruebas del juego de peleas.", () => {
       bellossom.setHP(10);
       expect(bellossom.getHP()).to.eq(10);
       bellossom.setHP(75);
+      bellossom.setHP(-10);
+      expect(bellossom.getHP()).to.eq(0);
+      bellossom.setHP(75);
       bellossom.setDefense(10);
       expect(bellossom.getDefense()).to.eq(10);
+      bellossom.setDefense(80);
+      bellossom.setDefense(-10);
+      expect(bellossom.getDefense()).to.eq(0);
       bellossom.setDefense(80);
     });
   });
