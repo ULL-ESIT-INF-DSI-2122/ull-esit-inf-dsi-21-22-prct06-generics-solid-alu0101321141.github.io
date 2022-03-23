@@ -3,6 +3,7 @@ import {expect} from 'chai';
 import {Pokemon} from '../src/ejercicio1/Pokemon';
 import {Avatar} from '../src/ejercicio1/Avatar';
 import {OnePiece} from '../src/ejercicio1/OnePiece';
+import {DragonBall} from '../src/ejercicio1/DragonBall';
 import {Combat} from '../src/ejercicio1/Combat';
 
 describe("Pruebas del juego de peleas.", () => {
@@ -110,6 +111,39 @@ describe("Pruebas del juego de peleas.", () => {
       luffy.setWeapon("Espada");
       expect(luffy.getWeapon()).to.eq("Espada");
       luffy.setWeapon("Gear 2");
+    });
+  });
+  describe("Pruebas de la clase DragonBall", () => {
+    const goku = new DragonBall("DragonBall", "Goku", "kame kame ahhhhh!!!",
+        400, 400, 450, "Vegeta", "Super Saiyan 2", [42, "Maestro Roshi"]);
+    const vegeta = new DragonBall("DragonBall", "Vegeta", "maldito seas kakaroto",
+        300, 350, 350, "Vegeta", "Super Saiyan 1", [42, "Exsoldado de Freezer"]);
+    const krilin = new DragonBall("DragonBall", "Krilin", "Taiooookeeenn",
+        200, 150, 150, "Tierra", "Kaioken", [43, "Maestro Roshi"]);
+
+    it("Pruebas de la definición de la clase Dragon Ball", () => {
+      expect(goku).not.to.be.null;
+    });
+    it("Getters del universo One Piece ", () => {
+      expect(goku.getNameUniverse()).to.eq("DragonBall");
+      expect(vegeta.getNameCharacter()).to.eq("Vegeta");
+      expect(vegeta.getCatchingPhrase()).to.eq("maldito seas kakaroto");
+      expect(vegeta.getHP()).to.eq(300);
+      expect(vegeta.getDM()).to.eq(350);
+      expect(vegeta.getDefense()).to.eq(350);
+      expect(krilin.getPlanet()).to.eq("Tierra");
+      expect(vegeta.getTechnics()).to.eq("Super Saiyan 1");
+      expect(goku.getInfo()).to.eql([42, "Maestro Roshi"]);
+    });
+    it("Setter del universo Dragon Ball ", () => {
+      goku.setHP(10);
+      expect(goku.getHP()).to.eq(10);
+      goku.setHP(400);
+      goku.setDefense(10);
+      expect(goku.getDefense()).to.eq(10);
+      goku.setDefense(450);
+      goku.setTechnics("Super Sayan Dios");
+      expect(goku.getTechnics()).to.eq("Super Sayan Dios");
     });
   });
   describe("Pruebas de la clase Combate", () => {
