@@ -21,7 +21,7 @@ describe("Pruebas de la modificacion de clase", () => {
       expect(colección1.search(1)).to.eql([]);
     });
   }); 
-  describe("Pruebas de la clase Pokemon", () => {
+  describe("Pruebas de la clase String", () => {
     const colección1 = new StringSearchableCollection("hola");
     it("Pruebas de la definición de la clase Numeric", () => {
       expect(colección1).not.to.be.null;
