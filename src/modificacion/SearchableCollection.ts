@@ -5,13 +5,14 @@ import {Searchable} from "../modificacion/Searchable";
  * Clase abstracta SearchableCollection
  */
 export abstract class SearchableCollection<T> implements Collectable<T>, Searchable<T> {
-  private collection: T[];
+  protected collection:T[];
   /**
    * constructor de la clase abstracta
-   * @param primer elemento  de la colección
+   * @param element elemento  de la colección
    */
   constructor(private element:T) {
     this.collection = [];
+    this.collection.push(element);
   }
   /**
    * añade elementos
@@ -26,14 +27,14 @@ export abstract class SearchableCollection<T> implements Collectable<T>, Searcha
    * @returns elemento
    */
   getItem(position: number): T {
-    return this.collection[position];
+    return this.collection[position - 1];
   }
   /**
    * Elimina un elemento
    * @param position posicion del elemento
    */
-  removeItem(position: number): void {
-    this.collection.splice(position);
+  removeItem(element:number): void {
+    this.collection = this.collection.splice(element);
   }
   /**
    * getter
@@ -46,5 +47,5 @@ export abstract class SearchableCollection<T> implements Collectable<T>, Searcha
    * Metodo de búsqueda
    * @param buscar Método abstracto Search
    */
-  abstract search(buscar: T): T;
+  abstract search(buscar: T): T[];
 }

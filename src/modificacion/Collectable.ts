@@ -17,7 +17,7 @@ export interface Collectable<T> {
    * delete
    * @param position posición donde esta el elemento
    */
-  removeItem(position: number):void;
+  removeItem(position:number):void;
   /**
    * getter
    * @return numero
