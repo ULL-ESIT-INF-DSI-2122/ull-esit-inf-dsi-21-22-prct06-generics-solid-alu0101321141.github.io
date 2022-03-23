@@ -37,4 +37,41 @@ export class Pokemon extends Fighter {
   getType() {
     return this.type;
   }
+
+  /**
+   * Peleas entre  Pokemon
+   * @param fighter1 Luchador 1
+   * @param fighter2 Luchador 2
+   * @returns Daño hecho
+   */
+  universeDamage(fighter1:Pokemon, fighter2:Pokemon): number {
+    let maxDmg = 0;
+    const fire: string = "Fire";
+    const water: string = "Water";
+    const grass: string = "Grass";
+    const electric: string = "Electric";
+    if (((fighter1.getType() == fire) && (fighter2.getType() == grass)) ||
+      ((fighter1.getType() == water) && (fighter2.getType() == fire)) ||
+      ((fighter1.getType() == electric) && (fighter2.getType() == water)) ||
+      ((fighter1.getType() == grass) && (fighter2.getType() == water))) {
+      maxDmg = fighter1.getDM() * 2;
+    } else if ((fighter1.getType() == fire) && (fighter2.getType() == electric) ||
+      (fighter1.getType() == grass) && (fighter2.getType() == electric)) {
+      maxDmg = fighter1.getDM();
+    } else if ((fighter1.getType() == grass) && (fighter2.getType() == fire) ||
+      ((fighter1.getType() == fire) && (fighter2.getType() == water)) ||
+      ((fighter1.getType() == water) && (fighter2.getType() == electric)) ||
+      ((fighter1.getType() == water) && (fighter2.getType() == grass)) ||
+      ((fighter1.getType() == fighter2.getType()))) {
+      maxDmg = fighter1.getDM() * 0.5;
+    }
+    if (maxDmg > fighter2.getDefense()) {
+      return maxDmg;
+    } else {
+      console.log(`El ${fighter2.getNameCharacter()} ha esquibado el ataque.`);
+      fighter2.setDefense(fighter2.getDefense() * 0.2);
+      console.log(`Por ello se ha cansado y su defensa se ha reducido a ${fighter2.getDefense()}`);
+      return 0;
+    }
+  }
 }

@@ -53,4 +53,38 @@ export class OnePiece extends Fighter {
   setWeapon(newWeapon:string) {
     this.weapon = newWeapon;
   }
+
+  /**
+   * Peleas entre el universo one piece
+   * @param fighter1 luchador 1
+   * @param fighter2 luchador 2
+   * @returns daño
+   */
+  universeDamage(fighter1:OnePiece, fighter2:OnePiece): number {
+    let maxDmg = 0;
+    const paramecia: string = "Paramecia";
+    const logia: string = "Logia";
+    const zoan: string = "Zoan";
+    if (fighter1.getTypeDevilFruit() == logia) {
+      maxDmg = fighter1.getDM() * 1.20;
+      if (fighter1.getWeapon().length != 0) maxDmg = fighter1.getDM() + (25 * fighter1.getDM() * 0.10);
+    } else if (fighter1.getTypeDevilFruit() == paramecia) {
+      maxDmg = fighter1.getDM() * 1;
+      if (fighter1.getWeapon().length != 0) maxDmg = fighter1.getDM() + (25 * fighter1.getDM() * 0.10);
+    } else if (fighter1.getTypeDevilFruit() == zoan) {
+      maxDmg = fighter1.getDM() * 0.9;
+      if (fighter1.getWeapon().length != 0) maxDmg = fighter1.getDM() + (25 * fighter1.getDM() * 0.10);
+    } else {
+      maxDmg = fighter1.getDM();
+      if (fighter1.getWeapon().length != 0) maxDmg = fighter1.getDM() + (25 * fighter1.getDM() * 0.10);
+    }
+    if (maxDmg > fighter2.getDefense()) {
+      return maxDmg;
+    } else {
+      console.log(`El ${fighter2.getNameCharacter()} ha esquibado el ataque.`);
+      fighter2.setDefense(fighter2.getDefense() * 0.2);
+      console.log(`Por ello se ha cansado y su defensa se ha reducido a ${fighter2.getDefense()}`);
+      return 0;
+    }
+  }
 }

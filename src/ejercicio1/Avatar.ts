@@ -52,4 +52,39 @@ export class Avatar extends Fighter {
   setWeapon(newWeapon:string) {
     this.weapon = newWeapon;
   }
+
+  universeDamage(fighter1:Avatar, fighter2:Avatar):number {
+    let maxDmg = 0;
+    const fire: string = "Fire";
+    const water: string = "Water";
+    const air: string = "Air";
+    const land: string = "Grass";
+    const avatar:string = "Avatar";
+
+    if (fighter1.getElement() == avatar) {
+      maxDmg = fighter1.getDM() * 2.5;
+    } else if (((fighter1.getElement() == fire) && (fighter2.getElement() == air)) ||
+      (((fighter1.getElement() == land) && (fighter2.getElement() == fire)) ||
+      ((fighter1.getElement() == water) && (fighter2.getElement() == fire)))) {
+      maxDmg = fighter1.getDM() * 2;
+    } else if ((fighter1.getElement() == air) && (fighter2.getElement() == land) ||
+      (fighter1.getElement() == water) && (fighter2.getElement() == land)) {
+      maxDmg = fighter1.getDM();
+    } else if (((fighter1.getElement() == air) && (fighter2.getElement() == fire)) ||
+      (((fighter1.getElement() == fire) && (fighter2.getElement() == land)) ||
+      ((fighter1.getElement() == fire) && (fighter2.getElement() == water))) ||
+      ((fighter1.getElement() == fighter2.getElement()))) {
+      maxDmg = fighter1.getDM() * 0.85;
+    } else {
+      maxDmg = fighter1.getDM() * 0.5;
+    }
+    if (maxDmg > fighter2.getDefense()) {
+      return maxDmg;
+    } else {
+      console.log(`El ${fighter2.getNameCharacter()} ha esquibado el ataque.`);
+      fighter2.setDefense(fighter2.getDefense() * 0.2);
+      console.log(`Por ello se ha cansado y su defensa se ha reducido a ${fighter2.getDefense()}`);
+      return 0;
+    }
+  }
 }

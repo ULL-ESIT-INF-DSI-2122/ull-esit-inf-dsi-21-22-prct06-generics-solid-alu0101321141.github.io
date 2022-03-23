@@ -53,4 +53,33 @@ export class DragonBall extends Fighter {
   setTechnics(newTechnic:string) {
     this.Technics = newTechnic;
   }
+
+  /**
+   * Peleas entre el universo dragon ball.
+   * @param fighter1 luchador 1
+   * @param fighter2 luchador 2
+   * @returns daño hecho
+   */
+  universeDamage(fighter1:DragonBall, fighter2:DragonBall): number {
+    let maxDmg = 0;
+    const superSayan1:string = "Super Saiyan 1";
+    const superSayan2: string = "Super Saiyan 2";
+    const superSayanDios:string = "Super Saiyan Dios";
+    const kaioken:string = "kaioken";
+    if (fighter1.getTechnics() == superSayanDios) {
+      return fighter1.getDM() * 8;
+    } else if (fighter1.getTechnics() == superSayan1 || fighter1.getTechnics() == superSayan2) {
+      maxDmg = fighter1.getDM() * 1.4;
+    } else if (fighter1.getTechnics() == kaioken) {
+      maxDmg = fighter1.getDM() * 1.15;
+    }
+    if (maxDmg > fighter2.getDefense() ) {
+      return maxDmg;
+    } else {
+      console.log(`El ${fighter2.getNameCharacter()} ha esquibado el ataque.`);
+      fighter2.setDefense(fighter2.getDefense() * 0.2);
+      console.log(`Por ello se ha cansado y su defensa se ha reducido a ${fighter2.getDefense()}`);
+      return 0;
+    }
+  }
 }
