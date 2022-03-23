@@ -5,6 +5,7 @@ import {Avatar} from '../src/ejercicio1/Avatar';
 import {OnePiece} from '../src/ejercicio1/OnePiece';
 import {DragonBall} from '../src/ejercicio1/DragonBall';
 import {Combat} from '../src/ejercicio1/Combat';
+import {Pokedex} from '../src/ejercicio1/Pokedex';
 
 describe("Pruebas del juego de peleas.", () => {
   describe("Pruebas de la clase Pokemon", () => {
@@ -291,6 +292,28 @@ describe("Pruebas del juego de peleas.", () => {
         const combat13 = new Combat(goku, vegeta);
         expect(combat13.start()).to.eq("El ganador del combate es Goku");
       });
+    });
+  });
+  describe("Pruebas de la clase Pokedex", () => {
+    const pikachu = new Pokemon("Pokemon", "Pikachu", "Pika Pika CHUU", 45, 80, 50, "Electric", [430, 75, 60, 120]);
+    const dragonite = new Pokemon("Pokemon", "Dragonite", "Dragoonite", 91, 134, 95, "Fire", [600, 100, 100, 80]);
+
+    const pokedex = new Pokedex("Vlatko", 21, "OnePiece", [pikachu]);
+
+    it("Pruebas de la definición de la clase Pokedex", () => {
+      expect(pokedex).not.to.be.null;
+    });
+
+    it("Getters de la clase Pokedex ", () => {
+      expect(pokedex.getNameOwner()).to.eq("Vlatko");
+      expect(pokedex.getAge()).to.eq(21);
+      expect(pokedex.getFavUniverse()).to.eq("OnePiece");
+      expect(pokedex.getCharacters()).to.eql([pikachu]);
+    });
+
+    it("Setters de la clase Pokedex ", () => {
+      pokedex.setNewCharacters(dragonite);
+      expect(pokedex.getCharacters()).to.eql([pikachu, dragonite]);
     });
   });
 });
