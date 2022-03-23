@@ -40,6 +40,7 @@ describe("Pruebas del juego de peleas.", () => {
       bellossom.setDefense(80);
     });
   });
+
   describe("Pruebas de la clase Avatar", () => {
     const aang = new Avatar("Avatar", "Aang", "La venganza es como un arma de doble filo: mientras " +
       " ves caer a tu enemigo, te envenenas por dentro", 250, 150, 100, "Avatar", "Planeador", [12, "Nomadas del aire"]);
@@ -79,6 +80,7 @@ describe("Pruebas del juego de peleas.", () => {
       Toph.setWeapon("Cables Metal");
     });
   });
+
   describe("Pruebas de la clase One Piece", () => {
     const luffy = new OnePiece("OnePiece", "Luffy", "En un duelo entre piratas… No existe tal cosa de jugar sucio",
         350, 400, 150, "Paramecia", "Gear 2", [19, "East Blue", "1.500.000.000 Belly"]);
@@ -113,6 +115,7 @@ describe("Pruebas del juego de peleas.", () => {
       luffy.setWeapon("Gear 2");
     });
   });
+
   describe("Pruebas de la clase DragonBall", () => {
     const goku = new DragonBall("DragonBall", "Goku", "kame kame ahhhhh!!!",
         400, 400, 450, "Vegeta", "Super Saiyan 2", [42, "Maestro Roshi"]);
@@ -146,31 +149,148 @@ describe("Pruebas del juego de peleas.", () => {
       expect(goku.getTechnics()).to.eq("Super Sayan Dios");
     });
   });
+
   describe("Pruebas de la clase Combate", () => {
-    const aang = new Avatar("Avatar", "Aang", "La venganza es como un arma de doble filo: mientras " +
-        " ves caer a tu enemigo, te envenenas por dentro", 250, 150, 100, "Avatar", "Planeador", [12, "Nomadas del aire"]);
-    const luffy = new OnePiece("OnePiece", "Luffy", "En un duelo entre piratas… No existe tal cosa de jugar sucio",
-        350, 400, 150, "Paramecia", "Gear 2", [19, "East Blue", "1.500.000.000 Belly"]);
-    const akainu = new OnePiece("OnePiece", "Akainu", "¡¡El «mal» que representan los piratas debe ser erradicado!!",
-        650, 1000, 300, "Logia", "", [55, "North Blue", "Almirante de flota"]);
-    const pikachu = new Pokemon("Pokemon", "Pikachu", "Pika Pika CHUU", 45, 80, 50, "Electric", [430, 75, 60, 120]);
-
-    const combat1 = new Combat(aang, luffy);
-
     it("Pruebas de la definición de la clase Combate", () => {
+      const aang = new Avatar("Avatar", "Aang", "La venganza es como un arma de doble filo: mientras " +
+        " ves caer a tu enemigo, te envenenas por dentro", 250, 150, 100, "Avatar", "Planeador", [12, "Nomadas del aire"]);
+      const luffy = new OnePiece("OnePiece", "Luffy", "En un duelo entre piratas… No existe tal cosa de jugar sucio",
+          350, 400, 150, "Paramecia", "Gear 2", [19, "East Blue", "1.500.000.000 Belly"]);
+      const combat1 = new Combat(aang, luffy);
       expect(combat1).not.to.be.null;
     });
+
     it("Getters del Combate ", () => {
+      const aang = new Avatar("Avatar", "Aang", "La venganza es como un arma de doble filo: mientras " +
+        " ves caer a tu enemigo, te envenenas por dentro", 250, 150, 100, "Avatar", "Planeador", [12, "Nomadas del aire"]);
+      const luffy = new OnePiece("OnePiece", "Luffy", "En un duelo entre piratas… No existe tal cosa de jugar sucio",
+          350, 400, 150, "Paramecia", "Gear 2", [19, "East Blue", "1.500.000.000 Belly"]);
+      const combat1 = new Combat(aang, luffy);
       expect(combat1.getFighter1()).to.eql(aang);
       expect(combat1.getFighter2()).to.eql(luffy);
     });
-    it("Setter del universo One Piece ", () => {
-      combat1.setFighter1(akainu);
-      expect(combat1.getFighter1()).to.eql(akainu);
+
+    it("Setters de los combates ", () => {
+      const aang = new Avatar("Avatar", "Aang", "La venganza es como un arma de doble filo: mientras " +
+        " ves caer a tu enemigo, te envenenas por dentro", 250, 150, 100, "Avatar", "Planeador", [12, "Nomadas del aire"]);
+      const luffy = new OnePiece("OnePiece", "Luffy", "En un duelo entre piratas… No existe tal cosa de jugar sucio",
+          350, 400, 150, "Paramecia", "Gear 2", [19, "East Blue", "1.500.000.000 Belly"]);
+      const Queen = new OnePiece("OnePiece", "Queen la Plaga", "¡Gracias por esperar! ¡Pedazos de basura!",
+          400, 500, 250, "Zoan", "", [56, "Grand Line", "1.320.000.000 Belly"]);
+      const pikachu = new Pokemon("Pokemon", "Pikachu", "Pika Pika CHUU", 45, 80, 50, "Electric", [430, 75, 60, 120]);
+      const combat1 = new Combat(aang, luffy);
+      combat1.setFighter1(Queen);
+      expect(combat1.getFighter1()).to.eql(Queen);
       combat1.setFighter1(aang);
       combat1.setFighter2(pikachu);
       expect(combat1.getFighter2()).to.eql(pikachu);
       combat1.setFighter2(luffy);
+    });
+
+    describe("Peleas entre universos", () => {
+      it("Pelea 1: Aang vs luffy ", () => {
+        const aang = new Avatar("Avatar", "Aang", "La venganza es como un arma de doble filo: mientras " +
+          " ves caer a tu enemigo, te envenenas por dentro", 250, 150, 100, "Avatar", "Planeador", [12, "Nomadas del aire"]);
+        const luffy = new OnePiece("OnePiece", "Luffy", "En un duelo entre piratas… No existe tal cosa de jugar sucio",
+            350, 400, 150, "Paramecia", "Gear 2", [19, "East Blue", "1.500.000.000 Belly"]);
+        const combat1 = new Combat(aang, luffy);
+        expect(combat1.start()).to.eq("El ganador del combate es Luffy");
+      });
+      it("Pelea 2: Aang vs Pikachu", () => {
+        const aang = new Avatar("Avatar", "Aang", "La venganza es como un arma de doble filo: mientras " +
+          " ves caer a tu enemigo, te envenenas por dentro", 250, 150, 100, "Avatar", "Planeador", [12, "Nomadas del aire"]);
+        const pikachu = new Pokemon("Pokemon", "Pikachu", "Pika Pika CHUU", 45, 80, 50, "Electric", [430, 75, 60, 120]);
+        const combat2 = new Combat(aang, pikachu);
+        expect(combat2.start()).to.eq("El ganador del combate es Aang");
+      });
+      it("Pelea 3: Aang vs Goku ", () => {
+        const aang = new Avatar("Avatar", "Aang", "La venganza es como un arma de doble filo: mientras " +
+          " ves caer a tu enemigo, te envenenas por dentro", 250, 150, 100, "Avatar", "Planeador", [12, "Nomadas del aire"]);
+        const goku = new DragonBall("DragonBall", "Goku", "kame kame ahhhhh!!!",
+            400, 400, 450, "Vegeta", "Super Saiyan 2", [42, "Maestro Roshi"]);
+        const combat3 = new Combat(aang, goku);
+        expect(combat3.start()).to.eq("El ganador del combate es Goku");
+      });
+      it("Pelea 4: Queen la Plaga vs Zuko ", () => {
+        const Queen = new OnePiece("OnePiece", "Queen la Plaga", "¡Gracias por esperar! ¡Pedazos de basura!",
+            400, 500, 250, "Zoan", "", [56, "Grand Line", "1.320.000.000 Belly"]);
+        const zuko = new Avatar("Avatar", "Zuko", "Yo solía pensar que esta cicatriz me marcaba. La marca " +
+          "del príncipe desterrado, condenado a perseguir al Avatar para siempre.", 150, 100, 80, "Fire", "Espadas duales Dao", [18,
+          "Nación del fuego"]);
+        const combat4 = new Combat(Queen, zuko);
+        expect(combat4.start()).to.eq("El ganador del combate es Queen la Plaga");
+      });
+      it("Pelea 5: Queen la Plaga vs Zuko  ", () => {
+        const Queen = new OnePiece("OnePiece", "Queen la Plaga", "¡Gracias por esperar! ¡Pedazos de basura!",
+            400, 500, 250, "Zoan", "", [56, "Grand Line", "1.320.000.000 Belly"]);
+        const dragonite = new Pokemon("Pokemon", "Dragonite", "Dragoonite", 91, 134, 95, "Fire", [600, 100, 100, 80]);
+        const combat5 = new Combat(Queen, dragonite);
+        expect(combat5.start()).to.eq("El ganador del combate es Queen la Plaga");
+      });
+      it("Pelea 6: Queen la Plaga vs Vegeta ", () => {
+        const Queen = new OnePiece("OnePiece", "Queen la Plaga", "¡Gracias por esperar! ¡Pedazos de basura!",
+            400, 500, 250, "Zoan", "", [56, "Grand Line", "1.320.000.000 Belly"]);
+        const vegeta = new DragonBall("DragonBall", "Vegeta", "maldito seas kakaroto",
+            300, 350, 350, "Vegeta", "Super Saiyan 1", [42, "Exsoldado de Freezer"]);
+        const combat6 = new Combat(Queen, vegeta);
+        expect(combat6.start()).to.eq("El ganador del combate es Queen la Plaga");
+      });
+      it("Pelea 7: pikachu vs zuko ", () => {
+        const pikachu = new Pokemon("Pokemon", "Pikachu", "Pika Pika CHUU", 45, 80, 50, "Electric", [430, 75, 60, 120]);
+        const zuko = new Avatar("Avatar", "Zuko", "Yo solía pensar que esta cicatriz me marcaba. La marca " +
+          "del príncipe desterrado, condenado a perseguir al Avatar para siempre.", 150, 100, 80, "Fire", "Espadas duales Dao", [18,
+          "Nación del fuego"]);
+        const combat7 = new Combat(pikachu, zuko);
+        expect(combat7.start()).to.eq("El ganador del combate es Zuko");
+      });
+      it("Pelea 8: pikachu vs luffy ", () => {
+        const pikachu = new Pokemon("Pokemon", "Pikachu", "Pika Pika CHUU", 45, 80, 50, "Electric", [430, 75, 60, 120]);
+        const luffy = new OnePiece("OnePiece", "Luffy", "En un duelo entre piratas… No existe tal cosa de jugar sucio",
+            350, 400, 150, "Paramecia", "Gear 2", [19, "East Blue", "1.500.000.000 Belly"]);
+        const combat8 = new Combat(pikachu, luffy);
+        expect(combat8.start()).to.eq("El ganador del combate es Luffy");
+      });
+      it("Pelea 9: pikachu  vs vegeta ", () => {
+        const pikachu = new Pokemon("Pokemon", "Pikachu", "Pika Pika CHUU", 45, 80, 50, "Electric", [430, 75, 60, 120]);
+        const vegeta = new DragonBall("DragonBall", "Vegeta", "maldito seas kakaroto",
+            300, 350, 350, "Vegeta", "Super Saiyan 1", [42, "Exsoldado de Freezer"]);
+        const combat9 = new Combat(pikachu, vegeta);
+        expect(combat9.start()).to.eq("El ganador del combate es Vegeta");
+      });
+    });
+
+    describe("Peleas entre universos", () => {
+      it("Pelea 1: Aang vs Zuko ", () => {
+        const aang = new Avatar("Avatar", "Aang", "La venganza es como un arma de doble filo: mientras " +
+          " ves caer a tu enemigo, te envenenas por dentro", 250, 150, 100, "Avatar", "Planeador", [12, "Nomadas del aire"]);
+        const zuko = new Avatar("Avatar", "Zuko", "Yo solía pensar que esta cicatriz me marcaba. La marca " +
+          "del príncipe desterrado, condenado a perseguir al Avatar para siempre.", 150, 100, 80, "Fire", "Espadas duales Dao", [18,
+          "Nación del fuego"]);
+        const combat10 = new Combat(aang, zuko);
+        expect(combat10.start()).to.eq("El ganador del combate es Aang");
+      });
+      it("Pelea 1: luffy  vs Queen ", () => {
+        const luffy = new OnePiece("OnePiece", "Luffy", "En un duelo entre piratas… No existe tal cosa de jugar sucio",
+            350, 400, 150, "Paramecia", "Gear 2", [19, "East Blue", "1.500.000.000 Belly"]);
+        const Queen = new OnePiece("OnePiece", "Queen la Plaga", "¡Gracias por esperar! ¡Pedazos de basura!",
+            400, 500, 250, "Zoan", "", [56, "Grand Line", "1.320.000.000 Belly"]);
+        const combat11 = new Combat(luffy, Queen);
+        expect(combat11.start()).to.eq("El ganador del combate es Luffy");
+      });
+      it("Pelea 1: pikachu vs dragonite ", () => {
+        const pikachu = new Pokemon("Pokemon", "Pikachu", "Pika Pika CHUU", 45, 80, 50, "Electric", [430, 75, 60, 120]);
+        const dragonite = new Pokemon("Pokemon", "Dragonite", "Dragoonite", 91, 134, 95, "Fire", [600, 100, 100, 80]);
+        const combat12 = new Combat(dragonite, pikachu);
+        expect(combat12.start()).to.eq("El ganador del combate es Dragonite");
+      });
+      it("Pelea 1: Goku  vs Vegeta ", () => {
+        const goku = new DragonBall("DragonBall", "Goku", "kame kame ahhhhh!!!",
+            400, 400, 450, "Vegeta", "Super Saiyan 2", [42, "Maestro Roshi"]);
+        const vegeta = new DragonBall("DragonBall", "Vegeta", "maldito seas kakaroto",
+            300, 350, 350, "Vegeta", "Super Saiyan 1", [42, "Exsoldado de Freezer"]);
+        const combat13 = new Combat(goku, vegeta);
+        expect(combat13.start()).to.eq("El ganador del combate es Goku");
+      });
     });
   });
 });
