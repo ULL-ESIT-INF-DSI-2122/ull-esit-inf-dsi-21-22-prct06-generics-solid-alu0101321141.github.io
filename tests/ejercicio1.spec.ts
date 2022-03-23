@@ -67,6 +67,9 @@ describe("Pruebas del juego de peleas.", () => {
       Toph.setDefense(10);
       expect(Toph.getDefense()).to.eq(10);
       Toph.setDefense(100);
+      Toph.setWeapon("Espada");
+      expect(Toph.getWeapon()).to.eq("Espada");
+      Toph.setWeapon("Cables Metal");
     });
   });
   describe("Pruebas de la clase One Piece", () => {
@@ -98,6 +101,9 @@ describe("Pruebas del juego de peleas.", () => {
       luffy.setDefense(10);
       expect(luffy.getDefense()).to.eq(10);
       luffy.setDefense(150);
+      luffy.setWeapon("Espada");
+      expect(luffy.getWeapon()).to.eq("Espada");
+      luffy.setWeapon("Gear 2");
     });
   });
   describe("Pruebas de la clase Combate", () => {
