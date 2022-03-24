@@ -1,6 +1,17 @@
 {
     "entryPoints": [
-        "./src/ejercicio1/ejercicioCombat.ts"
+        "./src/ejercicio1/Combat.ts",
+        "./src/ejercicio1/Avatar.ts",
+        "./src/ejercicio1/DragonBall.ts",
+        "./src/ejercicio1/fighter.ts",
+        "./src/ejercicio1/OnePiece.ts",
+        "./src/ejercicio1/Pokedex.ts",
+        "./src/ejercicio1/Pokemon.ts",
+        "./src/modificacion/Collectable.ts",
+        "./src/modificacion/NumericSearchableCollection.ts",
+        "./src/modificacion/Searchable.ts",
+        "./src/modificacion/SearchableCollection.ts",
+        "./src/modificacion/StringSearchableCollection.ts"
     ],
     "out": "./docs"
 }
