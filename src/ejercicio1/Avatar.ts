@@ -53,12 +53,18 @@ export class Avatar extends Fighter {
     this.weapon = newWeapon;
   }
 
+  /**
+   * Daño del universo.
+   * @param fighter1 luchador 1
+   * @param fighter2 luchador 2
+   * @returns daño realizado
+   */
   universeDamage(fighter1:Avatar, fighter2:Avatar):number {
     let maxDmg = 0;
     const fire: string = "Fire";
     const water: string = "Water";
     const air: string = "Air";
-    const land: string = "Grass";
+    const land: string = "Land";
     const avatar:string = "Avatar";
 
     if (fighter1.getElement() == avatar) {
@@ -67,16 +73,20 @@ export class Avatar extends Fighter {
       (((fighter1.getElement() == land) && (fighter2.getElement() == fire)) ||
       ((fighter1.getElement() == water) && (fighter2.getElement() == fire)))) {
       maxDmg = fighter1.getDM() * 2;
+      if (fighter1.getWeapon().length != 0) maxDmg = fighter1.getDM() * 2 + (25 * fighter1.getDM() * 0.10);
     } else if ((fighter1.getElement() == air) && (fighter2.getElement() == land) ||
       (fighter1.getElement() == water) && (fighter2.getElement() == land)) {
       maxDmg = fighter1.getDM();
+      if (fighter1.getWeapon().length != 0) maxDmg = fighter1.getDM() + (25 * fighter1.getDM() * 0.10);
     } else if (((fighter1.getElement() == air) && (fighter2.getElement() == fire)) ||
       (((fighter1.getElement() == fire) && (fighter2.getElement() == land)) ||
       ((fighter1.getElement() == fire) && (fighter2.getElement() == water))) ||
       ((fighter1.getElement() == fighter2.getElement()))) {
       maxDmg = fighter1.getDM() * 0.85;
+      if (fighter1.getWeapon().length != 0) maxDmg = fighter1.getDM() * 0.85 + (25 * fighter1.getDM() * 0.10);
     } else {
       maxDmg = fighter1.getDM() * 0.5;
+      if (fighter1.getWeapon().length != 0) maxDmg = fighter1.getDM() * 0.5 + (25 * fighter1.getDM() * 0.10);
     }
     if (maxDmg > fighter2.getDefense()) {
       return maxDmg;
