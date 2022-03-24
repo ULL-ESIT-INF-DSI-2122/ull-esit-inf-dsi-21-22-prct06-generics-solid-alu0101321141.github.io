@@ -44,6 +44,11 @@ export class Combat {
     this.Fighter2 = newFighter;
   }
 
+
+  /**
+   * Simula el combate.
+   * @returns ganador de la pelea
+   */
   start() {
     console.log(`Comienza el gran combate entre ${this.Fighter1.getNameCharacter()}` +
       ` y ${this.Fighter2.getNameCharacter()}`);
