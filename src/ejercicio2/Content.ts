@@ -14,7 +14,7 @@ export abstract class Content {
    * @param genre genero de la obra
    */
   constructor(private name:string, private datePublished:[number, number, number], private autor:string,
-      private duration:number, private rate:number, private type:string, private genre:string) {
+      private duration:number, private rate:number, private type:string, private genre:string[]) {
     this.year = datePublished[2];
   }
   /**

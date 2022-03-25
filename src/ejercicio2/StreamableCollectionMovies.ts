@@ -1,20 +1,20 @@
 import {BasicStreamableCollection} from "../ejercicio2/BasicStreamableCollection";
-import {Series} from "../ejercicio2/Series";
+import {Movies} from "../ejercicio2/Movies";
 
 /**
- * Clase streamableCollectionSeries
+ * Clase streamableCollectioMovies
  */
-export class StreamableCollectionSeries extends BasicStreamableCollection<Series> {
-  constructor(newSerie:Series) {
+export class StreamableCollectionMovies extends BasicStreamableCollection<Movies> {
+  constructor(newSerie:Movies) {
     super(newSerie);
   }
   /**
    * Buscar por año
    * @param year año
-   * @returns retorna series del año
+   * @returns retorna Movies del año
    */
-  searchByYear(year: number): Series[] {
-    let aux:Series[] = [];
+  searchByYear(year: number): Movies[] {
+    let aux:Movies[] = [];
     aux = this.getCollection().filter(function(element) {
       return element.getYear() == year;
     });
@@ -23,10 +23,10 @@ export class StreamableCollectionSeries extends BasicStreamableCollection<Series
   /**
    * getter
    * @param date fecha
-   * @returns retorna series de la fecha
+   * @returns retorna Movies de la fecha
    */
-  searchByDate(date: [number, number, number]): Series[] {
-    let aux: Series[] = [];
+  searchByDate(date: [number, number, number]): Movies[] {
+    let aux: Movies[] = [];
     aux = this.getCollection().filter(function(element) {
       let i = 0;
       while (i < 3 && date[i] == element.getDatePublished()[i]) {
@@ -39,10 +39,10 @@ export class StreamableCollectionSeries extends BasicStreamableCollection<Series
   /**
    * buscar por tipo
    * @param type tipo
-   * @returns retorna series por el tipo
+   * @returns retorna Movies por el tipo
    */
-  searchByType(type: string): Series[] {
-    let aux: Series[] = [];
+  searchByType(type: string): Movies[] {
+    let aux: Movies[] = [];
     aux = this.getCollection().filter(function(element) {
       return element.getType() == type;
     });
@@ -51,10 +51,10 @@ export class StreamableCollectionSeries extends BasicStreamableCollection<Series
   /**
    * buscar por puntuacion
    * @param rate puntuacion
-   * @returns series por puntuacion
+   * @returns Movies por puntuacion
    */
-  searchByRate(rate: number): Series[] {
-    let aux: Series[] = [];
+  searchByRate(rate: number): Movies[] {
+    let aux: Movies[] = [];
     aux = this.getCollection().filter(function(element) {
       return element.getRate() == rate;
     });
@@ -63,10 +63,10 @@ export class StreamableCollectionSeries extends BasicStreamableCollection<Series
   /**
    * Buscar por autor
    * @param autor autor
-   * @returns series del autor
+   * @returns Movies del autor
    */
-  searchByAutor(autor: string): Series[] {
-    let aux: Series[] = [];
+  searchByAutor(autor: string): Movies[] {
+    let aux: Movies[] = [];
     aux = this.getCollection().filter(function(element) {
       return element.getAutor() == autor;
     });
@@ -77,12 +77,12 @@ export class StreamableCollectionSeries extends BasicStreamableCollection<Series
    * @param genre genero
    * @returns serie por genero
    */
-  searchByGenre(genre: string): Series[] {
-    let aux: Series[] = [];
-    aux = this.getCollection().filter(function(element) {
+  searchByGenre(genre: string): Movies[] {
+    let aux: Movies[] = [];
+    aux = this.getCollection().filter(function (element) {
       let counter = 0;
       element.getGenre().forEach((aux1) => {
-        if (aux1 == genre) return counter += 1;;
+        if (aux1 == genre) return counter += 1;
       });
       if (counter > 0) return element;
     });

@@ -1,6 +1,6 @@
 import {Content} from "../ejercicio2/Content";
 
-export class Series extends Content {
+export class Movies extends Content {
   /**
    * Copnstructor de la clase
    * @param name Nombre
@@ -13,8 +13,8 @@ export class Series extends Content {
    * @param mainCharacter personaje principal
    */
   constructor(name: string, datePublished: [number, number, number], autor: string,
-      duration: number, rate: number, type: string, genre:string[], private seasons:number,
-      private mainCharacter:string) {
+      duration: number, rate: number, type: string, genre: string[], private mainCharacter: string,
+      private country:string) {
     super(name, datePublished, autor, duration, rate, type, genre);
   }
   /**
@@ -26,9 +26,9 @@ export class Series extends Content {
   }
   /**
    * getter
-   * @returns temporadas
+   * @returns Pais
    */
-  getSeasons() {
-    return this.seasons;
+  getCountry() {
+    return this.country;
   }
 }
