@@ -1,6 +1,6 @@
 import {Content} from "../ejercicio2/Content";
 
-export class Movies extends Content {
+export class Documentary extends Content {
   /**
    * Copnstructor de la clase
    * @param name Nombre
@@ -10,20 +10,11 @@ export class Movies extends Content {
    * @param rate calificación
    * @param type tipo
    * @param genre genero de la obra
-   * @param mainCharacter personaje principal
    * @param country país de origen.
    */
   constructor(name: string, datePublished: [number, number, number], autor: string,
-      duration: number, rate: number, type: string, genre: string[], private mainCharacter: string,
-      private country:string) {
+      duration: number, rate: number, type: string, genre: string[], private country:string, private chanel:string) {
     super(name, datePublished, autor, duration, rate, type, genre);
-  }
-  /**
-   * getter
-   * @returns personaje principal
-   */
-  getMainCharacter() {
-    return this.mainCharacter;
   }
   /**
    * getter
@@ -31,5 +22,13 @@ export class Movies extends Content {
    */
   getCountry() {
     return this.country;
+  }
+
+  /**
+   * getter
+   * @returns canal
+   */
+  getChanel() {
+    return this.chanel;
   }
 }
