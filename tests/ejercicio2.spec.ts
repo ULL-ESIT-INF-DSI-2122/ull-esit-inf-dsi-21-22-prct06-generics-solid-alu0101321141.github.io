@@ -124,11 +124,6 @@ describe("Pruebas del ejercicio 2.", () => {
       expect(collectionMovies.searchByGenre("Aventura Espacial")).to.eql([interStellar]);
     });
   });
-  
-
-
-
-
   describe("Pruebas de la clase Documental", () => {
     const cosmos = new Documentary("Cosmos: Un viaje Personal", [28, 9, 1980], "Carl Sagan", 60, 8.8, "Todos los publicos",
         ["Divulgación científica", "Naturaleza"], "Estados Unidos", "Public Broadcasting Service");
