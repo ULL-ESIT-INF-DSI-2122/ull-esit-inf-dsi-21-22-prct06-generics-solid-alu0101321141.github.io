@@ -4,6 +4,8 @@ import {Series} from '../src/ejercicio2/Series';
 import {StreamableCollectionSeries} from '../src/ejercicio2/StreamableCollectionSeries';
 import {Movies} from '../src/ejercicio2/Movies';
 import {StreamableCollectionMovies} from '../src/ejercicio2/StreamableCollectionMovies';
+import {Documentary} from '../src/ejercicio2/Documentary';
+import {StreamableCollectionDocumentary} from '../src/ejercicio2/StreamableCollectionDocumentary';
 
 
 describe("Pruebas del ejercicio 2.", () => {
@@ -120,6 +122,70 @@ describe("Pruebas del ejercicio 2.", () => {
       expect(collectionMovies.searchByAutor("Christopher Nolan")).to.eql([interStellar]);
       expect(collectionMovies.searchByGenre("lucha")).to.eql([]);
       expect(collectionMovies.searchByGenre("Aventura Espacial")).to.eql([interStellar]);
+    });
+  });
+  
+
+
+
+
+  describe("Pruebas de la clase Documental", () => {
+    const cosmos = new Documentary("Cosmos: Un viaje Personal", [28, 9, 1980], "Carl Sagan", 60, 8.8, "Todos los publicos",
+        ["Divulgación científica", "Naturaleza"], "Estados Unidos", "Public Broadcasting Service");
+    it("Pruebas exitencia clase Series", () => {
+      expect(cosmos).not.be.null;
+    });
+    it("Pruebas Getters.", () => {
+      expect(cosmos.getName()).to.eq("Cosmos: Un viaje Personal");
+      expect(cosmos.getDatePublished()).to.eql([28, 9, 1980]);
+      expect(cosmos.getAutor()).to.eq("Carl Sagan");
+      expect(cosmos.getDuration()).to.eq(60);
+      expect(cosmos.getRate()).to.eq(8.8);
+      expect(cosmos.getType()).to.eq("Todos los publicos");
+      expect(cosmos.getGenre()).to.eql(["Divulgación científica", "Naturaleza"]);
+      expect(cosmos.getCountry()).to.eq("Estados Unidos");
+      expect(cosmos.getChanel()).to.eq("Public Broadcasting Service");
+    });
+  });
+  describe("Pruebas de la clase Coleccion de Documental.", () => {
+    const cosmos = new Documentary("Cosmos: Un viaje Personal", [28, 9, 1980], "Carl Sagan", 60, 8.8, "Todos los publicos",
+        ["Divulgación científica", "Naturaleza"], "Estados Unidos", "Public Broadcasting Service");
+    const ingenieriaRomana = new Documentary("Ingeniería Romana", [24, 10, 2015], "Jose Antonio Muñiz", 55, 8.7, "Todos los publicos",
+        ["Historia", "Antigua Roma", "Arquitectura"], "España", "RTVE");
+    const collectionDocumentary = new StreamableCollectionDocumentary(cosmos);
+    it("Pruebas de existencia", () => {
+      expect(collectionDocumentary).not.be.null;
+    });
+    it("Pruebas de los add y getters", () => {
+      collectionDocumentary.addCollection(ingenieriaRomana);
+      expect(collectionDocumentary.getCollection()).to.eql([cosmos, ingenieriaRomana]);
+      collectionDocumentary.addFav(cosmos);
+      expect(collectionDocumentary.getFavList()).to.eql([cosmos]);
+      collectionDocumentary.addViewLater(ingenieriaRomana);
+      expect(collectionDocumentary.getViewLater()).to.eql([ingenieriaRomana]);
+    });
+    it("Pruebas de los remove y getters", () => {
+      collectionDocumentary.removeCollection(cosmos);
+      expect(collectionDocumentary.getCollection()).to.eql([ingenieriaRomana]);
+      collectionDocumentary.removeFav(ingenieriaRomana);
+      expect(collectionDocumentary.getFavList()).to.eql([cosmos]);
+      collectionDocumentary.removeViewLater(cosmos);
+      expect(collectionDocumentary.getViewLater()).to.eql([ingenieriaRomana]);
+    });
+    it("Pruebas Busquedas", () => {
+      collectionDocumentary.addCollection(cosmos);
+      expect(collectionDocumentary.searchByYear(2022)).to.eql([]);
+      expect(collectionDocumentary.searchByYear(1980)).to.eql([cosmos]);
+      expect(collectionDocumentary.searchByDate([2, 12, 1996])).to.eql([]);
+      expect(collectionDocumentary.searchByDate([24, 10, 2015])).to.eql([ingenieriaRomana]);
+      expect(collectionDocumentary.searchByType("Adultos")).to.eql([]);
+      expect(collectionDocumentary.searchByType("Todos los publicos")).to.eql([ingenieriaRomana, cosmos]);
+      expect(collectionDocumentary.searchByRate(10)).to.eql([]);
+      expect(collectionDocumentary.searchByRate(8.8)).to.eql([cosmos]);
+      expect(collectionDocumentary.searchByAutor("hola")).to.eql([]);
+      expect(collectionDocumentary.searchByAutor("Jose Antonio Muñiz")).to.eql([ingenieriaRomana]);
+      expect(collectionDocumentary.searchByGenre("lucha")).to.eql([]);
+      expect(collectionDocumentary.searchByGenre("Arquitectura")).to.eql([ingenieriaRomana]);
     });
   });
 });
