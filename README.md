@@ -1016,3 +1016,143 @@ Como se expico anteriormente, la logica seguida en el resto es similar.
 
 ### Ejercicio 3. El cifrado indescifrable.
 
+Se nos pide implementar una clase cifrado que realice el cifrado cesar con multiples desplazamiento teniendo en cuenta la posicion de caracter de la clave en el alfabeto para realizar el desplazamiento.
+
+Esta implementación debería ser con alfabetos, textos y claves de tamaño variable. Para ello realizamos las siguientes pruebas:
+
+```typescript
+describe("Pruebas de clase Cifrado.", () => {
+  describe("Pruebas de la clase Cifrado", () => {
+    const cifrado1 = new Cifrado("abcdef", "cef", "abba");
+    it("Pruebas de la definición de la clase Pokemon", () => {
+      expect(cifrado1).not.to.be.null;
+    });
+    it("Getters de la clase cifrado ", () => {
+      expect(cifrado1.getAlphabet()).to.eq("abcdef");
+      expect(cifrado1.getKey()).to.eq("cef");
+      expect(cifrado1.getText()).to.eq("abba");
+    });
+    it("setters de la clase cifrado", () => {
+      cifrado1.setAlphabet("aa");
+      expect(cifrado1.getAlphabet()).to.eq("aa");
+      cifrado1.setKey("bb");
+      expect(cifrado1.getKey()).to.eq("bb");
+      cifrado1.setText("tt");
+      expect(cifrado1.getText()).to.eq("tt");
+    });
+    it("Pruebas de la codificación con difrentes alfabetos, claves y textos", () => {
+      cifrado1.setAlphabet("ABCDEFGHIJKLMNÑOPQRSTUVWXYZ");
+      cifrado1.setKey("CLA");
+      cifrado1.setText("HOLA");
+      expect(cifrado1.coding()).to.eq("KAMD");
+      cifrado1.setAlphabet("ABCDEFGHIJKLMNÑOPQRSTUVWXYZ");
+      cifrado1.setKey("CLA");
+      cifrado1.setText("HOLA1");
+      expect(cifrado1.coding()).to.eq("KAMD1");
+      cifrado1.setAlphabet("ABCDEFGUVWXYZ");
+      cifrado1.setKey("CWA");
+      cifrado1.setText("AYZAG");
+      expect(cifrado1.coding()).to.eq("DVADD");
+    });
+    it("Pruebas de la Decodificación con difrentes alfabetos, claves y textos", () => {
+      cifrado1.setAlphabet("ABCDEFGHIJKLMNÑOPQRSTUVWXYZ");
+      cifrado1.setKey("CLA");
+      cifrado1.setText("KAMD");
+      expect(cifrado1.decoding()).to.eq("HOLA");
+      cifrado1.setAlphabet("ABCDEFGHIJKLMNÑOPQRSTUVWXYZ");
+      cifrado1.setKey("CLA");
+      cifrado1.setText("KAMD1");
+      expect(cifrado1.decoding()).to.eq("HOLA1");
+      cifrado1.setAlphabet("ABCDEFGUVWXYZ");
+      cifrado1.setKey("CWA");
+      cifrado1.setText("DVADD");
+      expect(cifrado1.decoding()).to.eq("AYZAG");
+    });
+  });
+});
+```
+
+Y la implementación de la clase fue:
+
+```typescript
+export class Cifrado {
+  private alphabet:string[];
+  private key:string[];
+  private text:string[];
+
+  constructor(alphabet:string, key:string, text:string) {
+    this.alphabet = this.stringToVector(alphabet);
+    this.key = this.stringToVector(key);
+    this.text = this.stringToVector(text);
+  }
+
+  getAlphabet() {
+    return this.alphabet.toString().replace(/,/g, "");
+  }
+
+  getKey() {
+    return this.key.toString().replace(/,/g, "");
+  }
+
+  getText() {
+    return this.text.toString().replace(/,/g, "");
+  }
+
+  setAlphabet(newAlphabet:string) {
+    this.alphabet = this.stringToVector(newAlphabet);
+  }
+
+  setKey(newKey: string) {
+    this.key = this.stringToVector(newKey);
+  }
+
+  setText(newText: string) {
+    this.text = this.stringToVector(newText);
+  }
+
+  coding() {
+    let codingMSG:string = "";
+    for (let i = 0; i < this.text.length; i++) {
+      const letterOrig = this.text[i];
+      const positionLetterO = this.alphabet.indexOf(letterOrig);
+      const letterKey = this.key[i % this.key.length];
+      const postionKey = this.alphabet.indexOf(letterKey);
+      if (positionLetterO == -1 || postionKey == -1) {
+        codingMSG += letterOrig;
+      } else {
+        codingMSG += this.alphabet[(positionLetterO + (postionKey + 1)) % this.alphabet.length];
+      }
+    }
+    return codingMSG;
+  }
+
+  decoding() {
+    let DecodingMSG: string = "";
+    for (let i = 0; i < this.text.length; i++) {
+      const letterCoding = this.text[i];
+      const positionLetterO = this.alphabet.indexOf(letterCoding);
+      const letterKey = this.key[i % this.key.length];
+      const postionKey = this.alphabet.indexOf(letterKey);
+      if (positionLetterO == -1 || postionKey == -1) {
+        DecodingMSG += letterCoding;
+      } else {
+        let postionBefore:number = (positionLetterO - (postionKey + 1)) % this.alphabet.length;
+        if (postionBefore < 0) postionBefore = postionBefore + this.alphabet.length;
+        DecodingMSG += this.alphabet[postionBefore];
+      }
+    }
+    return DecodingMSG;
+  }
+
+  private stringToVector(myString:string) {
+    let aux:string[] = [];
+    for (let i = 0; i < myString.length; i++) {
+      const letter = myString.charAt(i);
+      aux.push(letter);
+    }
+    return aux;
+  }
+}
+```
+
+Se decidió implementar operando con vectores en vez de strings ya que es una estructura de datos más flexible y versatil. Y lo unico remarcable mencionar es que utilizamos el modulo del tamaño del alfabeto para evitar el desbordamiento y en el caso del descifrado restamos la posicion de la clave que se nos da al valor de la posicion actual del caracter del texto cifrado para obtener la correcta posición el caracter. y en caso que sea negativo el valor le sumamos el tamaño del alfabeto para conseguir la posición correcta. 
