@@ -605,3 +605,414 @@ export class Pokedex {
 
 ### Ejercicio 2. DSIflix
 
+En el ejercicio 2 se nos propone crear una estructura de clases para crear un servicio de streaming en linea en el cual tendremos colecciones de Series, Peliculas y Documentales. Y para ello se nos da una serie de especificaciones. Para cumplimentarlas se desarrollo la siguiente estructura de interfaces y clases.
+
+![imagen2](/img/imagen2.png)
+
+De esta manera tenemos:
+
+1. Interfaces donde:
+
+   * StreamableSearch es la interfaz genérica para pautar los diferentes métodos para que una clase pueda ser buscada por diferentes parámetros.
+   * StramableList es una interfaz genéricas para pautar los difrentes métodos y atributos para que una clase pueda implementar las listas de preferencias (Favoritos, Ver más tarde).
+
+2. Clases StreamableCollection estas clases definen las diferentes colecciones que podemos llegar a tener dentro de nuestra página de streaming. Para implementarla acorde a los requerimientos se hizo:
+
+  * BasicStreamableCollection: esta clase abstracta genérica implementa las dos interfaces creadas. En dicha clase genérica se implementa la interfaz de StreamableList ya que esta guardará los elementos genéricos. Mientras que las búsquedas se dejarán abstractas para que cada clase hija las implemente según sus características.
+
+  * Las clases hijas son:
+
+    * StremableCollectionSeries: La clase implementa los métodos de busqueda para la colección de series.
+
+    * StremableCollectionMovies:La clase implementa los métodos de busqueda para la colección de películas.
+
+    * StremableCollectionDocumentary:La clase implementa los métodos de busqueda para la colección de Documentales.
+
+Antes de poder implementar toda esta estructura de colecciones se implementó la estructura de datos del contenido, ya que no puede existir una colección de series sin tener antes las series. Para ello, se creó la siguiente jerarquía:
+
+![imagen3](/img/imagen3.png)
+
+de esta manera la clase abstracta contenido pauta las características comunes que deben tener el contenido para que funcionen correctamente las búsquedas. Mientras que sus clases hijas añaden características propias de cada contenido.
+
+Se decidió esta estructura para poder añadir en el futuro mayor tipo de contenido, y que escale apropiadamente el diseño.
+
+Para conocer el funcionamiento de lo explicado anteriormente se realizaron las siguientes pruebas:
+
+```typescript
+describe("Pruebas del ejercicio 2.", () => {
+  describe("Pruebas de la clase Series", () => {
+    const blackList = new Series("BlackList", [25, 9, 2013], "Jon Bokenkamp", 43, 6.4, "Jovenes", ["Drama", "Crimen"], 9, "Raymond Reddington");
+    it("Pruebas exitencia clase Series", () => {
+      expect(blackList).not.be.null;
+    });
+    it("Pruebas Getters.", () => {
+      expect(blackList.getName()).to.eq("BlackList");
+      expect(blackList.getDatePublished()).to.eql([25, 9, 2013]);
+      expect(blackList.getAutor()).to.eq("Jon Bokenkamp");
+      expect(blackList.getDuration()).to.eq(43);
+      expect(blackList.getRate()).to.eq(6.4);
+      expect(blackList.getType()).to.eq("Jovenes");
+      expect(blackList.getGenre()).to.eql(["Drama", "Crimen"]);
+      expect(blackList.getSeasons()).to.eq(9);
+      expect(blackList.getMainCharacter()).to.eq("Raymond Reddington");
+    });
+  });
+  describe("Pruebas de la clase Coleccion de Series.", () => {
+    const blackList = new Series("BlackList", [25, 9, 2013], "Jon Bokenkamp", 43, 6.4, "Jovenes", ["Drama", "Crimen"], 9, "Raymond Reddington");
+    const bull = new Series("Bull", [13, 5, 2016], "Phil McGraw y Paul Attanasio", 43, 6.9, "Jovenes", ["Drama Judicial", "Abogados"], 6, "Jason Bull");
+    const collectionSeries = new StreamableCollectionSeries(blackList);
+    it("Pruebas de existencia", () => {
+      expect(collectionSeries).not.be.null;
+    });
+    it("Pruebas de los add y getters", () => {
+      collectionSeries.addCollection(bull);
+      expect(collectionSeries.getCollection()).to.eql([blackList, bull]);
+      collectionSeries.addFav(bull);
+      expect(collectionSeries.getFavList()).to.eql([bull]);
+      collectionSeries.addViewLater(blackList);
+      expect(collectionSeries.getViewLater()).to.eql([blackList]);
+    });
+    it("Pruebas de los remove y getters", () => {
+      collectionSeries.removeCollection(bull);
+      expect(collectionSeries.getCollection()).to.eql([blackList]);
+      collectionSeries.removeFav(bull);
+      expect(collectionSeries.getFavList()).to.eql([]);
+      collectionSeries.removeViewLater(blackList);
+      expect(collectionSeries.getViewLater()).to.eql([]);
+    });
+    it("Pruebas Busquedas", () => {
+      collectionSeries.addCollection(bull);
+      expect(collectionSeries.searchByYear(2022)).to.eql([]);
+      expect(collectionSeries.searchByYear(2013)).to.eql([blackList]);
+      expect(collectionSeries.searchByDate([2, 12, 1996])).to.eql([]);
+      expect(collectionSeries.searchByDate([13, 5, 2016])).to.eql([bull]);
+      expect(collectionSeries.searchByType("Adultos")).to.eql([]);
+      expect(collectionSeries.searchByType("Jovenes")).to.eql([blackList, bull]);
+      expect(collectionSeries.searchByRate(10)).to.eql([]);
+      expect(collectionSeries.searchByRate(6.9)).to.eql([bull]);
+      expect(collectionSeries.searchByAutor("hola")).to.eql([]);
+      expect(collectionSeries.searchByAutor("Jon Bokenkamp")).to.eql([blackList]);
+      expect(collectionSeries.searchByGenre("lucha")).to.eql([]);
+      expect(collectionSeries.searchByGenre("Crimen")).to.eql([blackList]);
+    });
+  });
+  describe("Pruebas de la clase Peliculas", () => {
+    const avatar = new Movies("Avatar", [18, 11, 2009], "James Cameron", 161, 7.2, "No recomendado a menores de 7 años",
+        ["Ciencia ficción", "Acción", "Aventura"], "Jake Sully", "Estados Unidos");
+    it("Pruebas exitencia clase Series", () => {
+      expect(avatar).not.be.null;
+    });
+    it("Pruebas Getters.", () => {
+      expect(avatar.getName()).to.eq("Avatar");
+      expect(avatar.getDatePublished()).to.eql([18, 11, 2009]);
+      expect(avatar.getAutor()).to.eq("James Cameron");
+      expect(avatar.getDuration()).to.eq(161);
+      expect(avatar.getRate()).to.eq(7.2);
+      expect(avatar.getType()).to.eq("No recomendado a menores de 7 años");
+      expect(avatar.getGenre()).to.eql(["Ciencia ficción", "Acción", "Aventura"]);
+      expect(avatar.getMainCharacter()).to.eq("Jake Sully");
+      expect(avatar.getCountry()).to.eq("Estados Unidos");
+    });
+  });
+  describe("Pruebas de la clase Coleccion de Peliculas.", () => {
+    const avatar = new Movies("Avatar", [18, 11, 2009], "James Cameron", 161, 7.2, "No recomendado menores 7 años",
+        ["Ciencia ficción", "Acción", "Aventura"], "Jake Sully", "Estados Unidos");
+    const interStellar = new Movies("Interstellar", [7, 11, 2014], "Christopher Nolan", 169, 7.9, "No recomendado menores 7 años",
+        ["Ciencia ficción", "Drama", "Aventura", "Aventura Espacial"], "Joseph Cooper", "Estados Unidos");
+    const collectionMovies = new StreamableCollectionMovies(avatar);
+    it("Pruebas de existencia", () => {
+      expect(collectionMovies).not.be.null;
+    });
+    it("Pruebas de los add y getters", () => {
+      collectionMovies.addCollection(interStellar);
+      expect(collectionMovies.getCollection()).to.eql([avatar, interStellar]);
+      collectionMovies.addFav(interStellar);
+      expect(collectionMovies.getFavList()).to.eql([interStellar]);
+      collectionMovies.addViewLater(avatar);
+      expect(collectionMovies.getViewLater()).to.eql([avatar]);
+    });
+    it("Pruebas de los remove y getters", () => {
+      collectionMovies.removeCollection(avatar);
+      expect(collectionMovies.getCollection()).to.eql([interStellar]);
+      collectionMovies.removeFav(interStellar);
+      expect(collectionMovies.getFavList()).to.eql([]);
+      collectionMovies.removeViewLater(avatar);
+      expect(collectionMovies.getViewLater()).to.eql([]);
+    });
+    it("Pruebas Busquedas", () => {
+      collectionMovies.addCollection(avatar);
+      expect(collectionMovies.searchByYear(2022)).to.eql([]);
+      expect(collectionMovies.searchByYear(2014)).to.eql([interStellar]);
+      expect(collectionMovies.searchByDate([2, 12, 1996])).to.eql([]);
+      expect(collectionMovies.searchByDate([18, 11, 2009])).to.eql([avatar]);
+      expect(collectionMovies.searchByType("Adultos")).to.eql([]);
+      expect(collectionMovies.searchByType("No recomendado menores 7 años")).to.eql([interStellar, avatar]);
+      expect(collectionMovies.searchByRate(10)).to.eql([]);
+      expect(collectionMovies.searchByRate(7.9)).to.eql([interStellar]);
+      expect(collectionMovies.searchByAutor("hola")).to.eql([]);
+      expect(collectionMovies.searchByAutor("Christopher Nolan")).to.eql([interStellar]);
+      expect(collectionMovies.searchByGenre("lucha")).to.eql([]);
+      expect(collectionMovies.searchByGenre("Aventura Espacial")).to.eql([interStellar]);
+    });
+  });
+  describe("Pruebas de la clase Documental", () => {
+    const cosmos = new Documentary("Cosmos: Un viaje Personal", [28, 9, 1980], "Carl Sagan", 60, 8.8, "Todos los publicos",
+        ["Divulgación científica", "Naturaleza"], "Estados Unidos", "Public Broadcasting Service");
+    it("Pruebas exitencia clase Series", () => {
+      expect(cosmos).not.be.null;
+    });
+    it("Pruebas Getters.", () => {
+      expect(cosmos.getName()).to.eq("Cosmos: Un viaje Personal");
+      expect(cosmos.getDatePublished()).to.eql([28, 9, 1980]);
+      expect(cosmos.getAutor()).to.eq("Carl Sagan");
+      expect(cosmos.getDuration()).to.eq(60);
+      expect(cosmos.getRate()).to.eq(8.8);
+      expect(cosmos.getType()).to.eq("Todos los publicos");
+      expect(cosmos.getGenre()).to.eql(["Divulgación científica", "Naturaleza"]);
+      expect(cosmos.getCountry()).to.eq("Estados Unidos");
+      expect(cosmos.getChanel()).to.eq("Public Broadcasting Service");
+    });
+  });
+  describe("Pruebas de la clase Coleccion de Documental.", () => {
+    const cosmos = new Documentary("Cosmos: Un viaje Personal", [28, 9, 1980], "Carl Sagan", 60, 8.8, "Todos los publicos",
+        ["Divulgación científica", "Naturaleza"], "Estados Unidos", "Public Broadcasting Service");
+    const ingenieriaRomana = new Documentary("Ingeniería Romana", [24, 10, 2015], "Jose Antonio Muñiz", 55, 8.7, "Todos los publicos",
+        ["Historia", "Antigua Roma", "Arquitectura"], "España", "RTVE");
+    const collectionDocumentary = new StreamableCollectionDocumentary(cosmos);
+    it("Pruebas de existencia", () => {
+      expect(collectionDocumentary).not.be.null;
+    });
+    it("Pruebas de los add y getters", () => {
+      collectionDocumentary.addCollection(ingenieriaRomana);
+      expect(collectionDocumentary.getCollection()).to.eql([cosmos, ingenieriaRomana]);
+      collectionDocumentary.addFav(cosmos);
+      expect(collectionDocumentary.getFavList()).to.eql([cosmos]);
+      collectionDocumentary.addViewLater(ingenieriaRomana);
+      expect(collectionDocumentary.getViewLater()).to.eql([ingenieriaRomana]);
+    });
+    it("Pruebas de los remove y getters", () => {
+      collectionDocumentary.removeCollection(cosmos);
+      expect(collectionDocumentary.getCollection()).to.eql([ingenieriaRomana]);
+      collectionDocumentary.removeFav(ingenieriaRomana);
+      expect(collectionDocumentary.getFavList()).to.eql([cosmos]);
+      collectionDocumentary.removeViewLater(cosmos);
+      expect(collectionDocumentary.getViewLater()).to.eql([ingenieriaRomana]);
+    });
+    it("Pruebas Busquedas", () => {
+      collectionDocumentary.addCollection(cosmos);
+      expect(collectionDocumentary.searchByYear(2022)).to.eql([]);
+      expect(collectionDocumentary.searchByYear(1980)).to.eql([cosmos]);
+      expect(collectionDocumentary.searchByDate([2, 12, 1996])).to.eql([]);
+      expect(collectionDocumentary.searchByDate([24, 10, 2015])).to.eql([ingenieriaRomana]);
+      expect(collectionDocumentary.searchByType("Adultos")).to.eql([]);
+      expect(collectionDocumentary.searchByType("Todos los publicos")).to.eql([ingenieriaRomana, cosmos]);
+      expect(collectionDocumentary.searchByRate(10)).to.eql([]);
+      expect(collectionDocumentary.searchByRate(8.8)).to.eql([cosmos]);
+      expect(collectionDocumentary.searchByAutor("hola")).to.eql([]);
+      expect(collectionDocumentary.searchByAutor("Jose Antonio Muñiz")).to.eql([ingenieriaRomana]);
+      expect(collectionDocumentary.searchByGenre("lucha")).to.eql([]);
+      expect(collectionDocumentary.searchByGenre("Arquitectura")).to.eql([ingenieriaRomana]);
+    });
+  });
+});
+```
+En dichas pruebas se comprobó al 100% todos los métodos tanto de las interfaces como de las diferentes clases.
+
+Con lo que respecta las clases se explicará la implementación de las Series, ya que el resto de clases siguien la misma lógica, pero con sus atributos propios y poner todo sería redundante.
+
+Para ello primero se explicará la clase abgracta y después la hija:
+
+```typescript
+export abstract class Content {
+  private year:number;
+  constructor(private name:string, private datePublished:[number, number, number], private autor:string,
+      private duration:number, private rate:number, private type:string, private genre:string[]) {
+    this.year = datePublished[2];
+  }
+  getName() {
+    return this.name;
+  }
+  getDatePublished() {
+    return this.datePublished;
+  }
+  getAutor() {
+    return this.autor;
+  }
+  getDuration() {
+    return this.duration;
+  }
+  getRate() {
+    return this.rate;
+  }
+  getType() {
+    return this.type;
+  }
+  getGenre() {
+    return this.genre;
+  }
+  getYear() {
+    return this.year;
+  }
+}
+```
+
+Siendo la clase abstracta content quien define getters de los elementos comunes.
+
+```typescript
+export class Series extends Content {
+  constructor(name: string, datePublished: [number, number, number], autor: string,
+      duration: number, rate: number, type: string, genre:string[], private seasons:number,
+      private mainCharacter:string) {
+    super(name, datePublished, autor, duration, rate, type, genre);
+  }
+  getMainCharacter() {
+    return this.mainCharacter;
+  }
+  getSeasons() {
+    return this.seasons;
+  }
+}
+```
+
+Mientras que la propia clase series añade unicamente sus atributos propios.
+
+Por otro lado nos encontramos la clase basicStreamableCollection, que implementa lo siguiente:
+
+```typescript
+export abstract class BasicStreamableCollection<T> implements StreamableList<T>, StreamableSearch<T> {
+  private collection:T[];
+  favList: T[];
+  viewLater: T[];
+  constructor(content:T) {
+    this.collection = [];
+    this.collection.push(content);
+    this.favList = [];
+    this.viewLater = [];
+  }
+  getCollection() {
+    return this.collection;
+  }
+  getFavList(): T[] {
+    return this.favList;
+  }
+  getViewLater(): T[] {
+    return this.viewLater;
+  }
+
+  abstract searchByYear(year: number): T[];
+  abstract searchByDate(date: [number, number, number]): T[];
+  abstract searchByType(type: string): T[];
+  abstract searchByRate(rate: number): T[];
+  abstract searchByAutor(autor: string): T[];
+  abstract searchByGenre(Genre: string): T[];
+
+  addFav(newElement: T): string {
+    this.favList.push(newElement);
+    return "Añadido a la lista de favoritos";
+  }
+
+  addViewLater(newElement: T): string {
+    this.viewLater.push(newElement);
+    return "Añadido a la lista de ver más tarde";
+  }
+
+  removeFav(element: T): string {
+    let aux: T[] = [];
+    this.favList.forEach((content) => {
+      if (element != content) aux.push(content);
+    });
+    this.favList = aux;
+    return "Elemento eliminado de favoritos";
+  }
+
+  removeViewLater(element: T): string {
+    let aux: T[] = [];
+    this.viewLater.forEach((content) => {
+      if (element != content) aux.push(content);
+    });
+    this.viewLater = aux;
+    return "Elemento eliminado de favoritos";
+  }
+
+  addCollection(element:T):string {
+    this.collection.push(element);
+    return "Elemento añadido a la colección";
+  }
+
+  removeCollection(element:T):string {
+    let aux:T[] = [];
+    this.collection.forEach((content) => {
+      if (element != content) aux.push(content);
+    });
+    this.collection = aux;
+    return "ELemento eliminado de la colección";
+  }
+}
+```
+
+Para añadir elementos realizamos un push a los vectores genéricos, mientras que para eliminar buscamos el elemento del vector y en caso de encontrarlo lo eliminamos.
+
+```typescript
+export class StreamableCollectionSeries extends BasicStreamableCollection<Series> {
+  constructor(newSerie:Series) {
+    super(newSerie);
+  }
+  searchByYear(year: number): Series[] {
+    let aux:Series[] = [];
+    aux = this.getCollection().filter(function(element) {
+      return element.getYear() == year;
+    });
+    return aux;
+  }
+  searchByDate(date: [number, number, number]): Series[] {
+    let aux: Series[] = [];
+    aux = this.getCollection().filter(function(element) {
+      let i = 0;
+      while (i < 3 && date[i] == element.getDatePublished()[i]) {
+        i = i + 1;
+      }
+      if (i == 3) return element;
+    });
+    return aux;
+  }
+  searchByType(type: string): Series[] {
+    let aux: Series[] = [];
+    aux = this.getCollection().filter(function(element) {
+      return element.getType() == type;
+    });
+    return aux;
+  }
+  searchByRate(rate: number): Series[] {
+    let aux: Series[] = [];
+    aux = this.getCollection().filter(function(element) {
+      return element.getRate() == rate;
+    });
+    return aux;
+  }
+  searchByAutor(autor: string): Series[] {
+    let aux: Series[] = [];
+    aux = this.getCollection().filter(function(element) {
+      return element.getAutor() == autor;
+    });
+    return aux;
+  }
+  searchByGenre(genre: string): Series[] {
+    let aux: Series[] = [];
+    aux = this.getCollection().filter(function(element) {
+      let counter = 0;
+      element.getGenre().forEach((aux1) => {
+        if (aux1 == genre) return counter += 1;;
+      });
+      if (counter > 0) return element;
+    });
+    return aux;
+  }
+```
+Donde para buscar recorremos en el vector de colección y buscamos por el atributo dado, de esta manera simulamos al usario buscando en una barra de búsqueda. Ya que dicha persona nunca te va a poner la propia pelicula para buscarla (porque para que buscarla si ya la tienes).
+
+Como se expico anteriormente, la logica seguida en el resto es similar.
+
+---
+
+### Ejercicio 3. El cifrado indescifrable.
+
