@@ -1,5 +1,8 @@
 import {Content} from "../ejercicio2/Content";
 
+/**
+ * Clase pelicula
+ */
 export class Movies extends Content {
   /**
    * Copnstructor de la clase

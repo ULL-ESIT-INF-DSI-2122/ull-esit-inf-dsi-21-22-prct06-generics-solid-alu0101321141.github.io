@@ -1,5 +1,8 @@
 import {Content} from "../ejercicio2/Content";
 
+/**
+ * Clase documental
+ */
 export class Documentary extends Content {
   /**
    * Copnstructor de la clase

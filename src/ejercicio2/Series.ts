@@ -1,5 +1,8 @@
 import {Content} from "../ejercicio2/Content";
 
+/**
+ * clase serie
+ */
 export class Series extends Content {
   /**
    * Copnstructor de la clase

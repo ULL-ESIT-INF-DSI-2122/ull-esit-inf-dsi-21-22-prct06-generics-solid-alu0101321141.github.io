@@ -5,6 +5,10 @@ import {Series} from "../ejercicio2/Series";
  * Clase streamableCollectionSeries
  */
 export class StreamableCollectionSeries extends BasicStreamableCollection<Series> {
+  /**
+   * Constructor
+   * @param newSerie nueva serie
+   */
   constructor(newSerie:Series) {
     super(newSerie);
   }
