@@ -31,6 +31,10 @@ describe("Pruebas de clase Cifrado.", () => {
       cifrado1.setKey("CLA");
       cifrado1.setText("HOLA1");
       expect(cifrado1.coding()).to.eq("KAMD1");
+      cifrado1.setAlphabet("ABCDEFGUVWXYZ");
+      cifrado1.setKey("CWA");
+      cifrado1.setText("AYZAG");
+      expect(cifrado1.coding()).to.eq("DVADD");
     });
     it("Pruebas de la Decodificación con difrentes alfabetos, claves y textos", () => {
       cifrado1.setAlphabet("ABCDEFGHIJKLMNÑOPQRSTUVWXYZ");
@@ -41,6 +45,10 @@ describe("Pruebas de clase Cifrado.", () => {
       cifrado1.setKey("CLA");
       cifrado1.setText("KAMD1");
       expect(cifrado1.decoding()).to.eq("HOLA1");
+      cifrado1.setAlphabet("ABCDEFGUVWXYZ");
+      cifrado1.setKey("CWA");
+      cifrado1.setText("DVADD");
+      expect(cifrado1.decoding()).to.eq("AYZAG");
     });
   });
 });
