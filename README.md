@@ -6,6 +6,7 @@ El repositorio se encuentra en seguimiento por coveralls.
 
 [![Coverage Status](https://coveralls.io/repos/github/ULL-ESIT-INF-DSI-2122/ull-esit-inf-dsi-21-22-prct06-generics-solid-alu0101321141.github.io/badge.svg?branch=main)](https://coveralls.io/github/ULL-ESIT-INF-DSI-2122/ull-esit-inf-dsi-21-22-prct06-generics-solid-alu0101321141.github.io?branch=main)
 
+(En la página me sale 80% pero en el readme me sale 68% 26/03/2022 14:08)
 ---
 
 ### Ejercicio 1. El combate definitivo.
